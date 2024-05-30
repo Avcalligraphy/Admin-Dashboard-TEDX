@@ -48,7 +48,7 @@ function SignIn() {
           Authorization: `Bearer ${access_token}`,
           access_api: access_api,
         },
-        withCredentials: true,
+        // withCredentials: true,
       });
 
       console.log(response);

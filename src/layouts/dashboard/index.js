@@ -26,10 +26,13 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import TransactionsEvent from "./TransactionEvent";
+import TransactionMerchandise from "./TransactionMerchandise";
 
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+  
 
   return (
     <DashboardLayout>
@@ -84,6 +87,12 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox> */}
+        <SoftBox mb={3}>
+          <TransactionsEvent />
+        </SoftBox>
+        <SoftBox mb={3}>
+          <TransactionMerchandise />
+        </SoftBox>
         <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={5}>

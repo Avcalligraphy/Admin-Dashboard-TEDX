@@ -23,10 +23,12 @@ import {
   setTransparentSidenav,
   useSoftUIController,
 } from "context";
+import { useLocation } from "react-router-dom";
 
 function Configurator({ onRefresh, editData }) {
-  console.log(editData?.id)
   // Add onRefresh prop
+  const { pathname } = useLocation();
+
   const [controller, dispatch] = useSoftUIController();
   const { openConfigurator, transparentSidenav, fixedNavbar, sidenavColor } = controller;
   const [disabled, setDisabled] = useState(false);
@@ -39,17 +41,17 @@ function Configurator({ onRefresh, editData }) {
     deskripsi_merchandise: "",
   });
 
-   useEffect(() => {
-     if (editData) {
-       setFormData({
-         name_merchandise: editData.name,
-         stock_merchandise: editData.stock,
-         price_merchandise: editData.price,
-         merchandiseFile: null, // This should handle file input differently
-         deskripsi_merchandise: editData.deskripsi,
-       });
-     }
-   }, [editData]);
+  useEffect(() => {
+    if (editData) {
+      setFormData({
+        name_merchandise: editData.name,
+        stock_merchandise: editData.stock,
+        price_merchandise: editData.price,
+        merchandiseFile: null, // This should handle file input differently
+        deskripsi_merchandise: editData.deskripsi,
+      });
+    }
+  }, [editData]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -59,7 +61,6 @@ function Configurator({ onRefresh, editData }) {
     }));
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true); // Set loading state to true
@@ -67,7 +68,7 @@ function Configurator({ onRefresh, editData }) {
       const apiUrl = process.env.REACT_APP_TEDX_API_URL;
       const access_api = process.env.REACT_APP_ACCESS_API;
       const access_token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU4ZTcwM2Q1LTJiZWUtNDUxYy1hYWVkLTQ2ZjkyMTQyMmRlNCIsInVzZXJuYW1lIjoiZHJhZGFwIiwiZW1haWwiOiI5QGdtYWlsLmNvbSIsImlhdCI6MTcxNjY3MDU3MiwiZXhwIjoxNzE2NjcxMTcyfQ.IvY4bd4KL3_2GKUgJkdPdQHsEbUR8RIRKfIHZZA3TGM";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0YWFmNjc1LWYxZDktNDYyZi05NDIyLTc2ZDc2Yzk2OTBkNCIsInVzZXJuYW1lIjoiQWRtaW4gVEVEWCBVSUkiLCJlbWFpbCI6ImFkbWluQHRlZHh1aWkuY29tIiwiaWF0IjoxNzE3MDA1NjYxLCJleHAiOjE3MTcwMDYyNjF9.djoqpfrWIK4_tPsuikQVHKVyMCPW09ejtsnypIEH_uY";
 
       const formDataToSend = new FormData();
       for (const key in formData) {
@@ -77,17 +78,13 @@ function Configurator({ onRefresh, editData }) {
       const method = editData ? "patch" : "post";
       const url = editData ? `${apiUrl}/merchandise/${editData?.id}` : `${apiUrl}/merchandise`;
 
-      const response = await axios({
-        method: method,
-        url: url,
-        data: formDataToSend,
+      const response = await axios[method](url, formDataToSend, {
         headers: {
           Accept: "*/*",
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${access_token}`,
           access_api: access_api,
         },
-        withCredentials: false,
       });
 
       setFormData({
@@ -146,7 +143,9 @@ function Configurator({ onRefresh, editData }) {
         px={3}
       >
         <SoftBox>
-          <SoftTypography variant="h5">{editData ? "Update" : "Add"} Merchandise Card</SoftTypography>
+          <SoftTypography variant="h5">
+            {editData ? "Update" : "Add"} Merchandise Card
+          </SoftTypography>
           <SoftTypography variant="body2" color="text">
             See our merchandise
           </SoftTypography>

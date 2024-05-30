@@ -20,12 +20,15 @@ import App from "App";
 
 // Soft UI Dashboard React Context Provider
 import { SoftUIControllerProvider } from "context";
+import { AuthProvider } from "react-auth-kit";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <SoftUIControllerProvider>
-      <App />
-    </SoftUIControllerProvider>
-  </BrowserRouter>
+  <AuthProvider authType={"cookie"} authName={"_auth"} cookieDomain={window.location.hostname} cookieSecure={false} >
+    <BrowserRouter>
+      <SoftUIControllerProvider>
+        <App />
+      </SoftUIControllerProvider>
+    </BrowserRouter>
+  </AuthProvider>
 );

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 import { useState, useEffect } from "react";
 
@@ -25,10 +26,10 @@ import Settings from "examples/Icons/Settings";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import burceMars from "assets/images/bruce-mars.png";
 import curved0 from "assets/images/curved-images/curved0.jpg";
 
-function Header() {
+function Header({email}) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -102,7 +103,7 @@ function Header() {
                 Admin TEDX UII
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                admin@tedxuii
+                {email}
               </SoftTypography>
             </SoftBox>
           </Grid>

@@ -56,14 +56,14 @@ const NotificationItem = forwardRef(({ color, image, title, date, ...rest }, ref
         }}
       >
         <SoftTypography variant="button" color="secondary">
-          <Icon
+          {/* <Icon
             sx={{
               lineHeight: 1.2,
               mr: 0.5,
             }}
           >
             watch_later
-          </Icon>
+          </Icon> */}
         </SoftTypography>
         {date}
       </SoftTypography>

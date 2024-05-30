@@ -59,7 +59,7 @@ export default styled(Avatar)(({ theme, ownerState }) => {
     case "xl":
       sizeValue = {
         width: pxToRem(74),
-        height: pxToRem(74),
+        height: pxToRem(54),
         fontSize: fontSize.md,
       };
       break;

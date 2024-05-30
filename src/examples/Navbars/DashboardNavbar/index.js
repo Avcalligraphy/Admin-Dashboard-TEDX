@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -56,7 +56,9 @@ import {
 
 // Images
 import team2 from "assets/images/team-2.jpg";
+import burceMars from "assets/images/bruce-mars.png";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+import { useSignOut } from "react-auth-kit";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -95,7 +97,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
+  const signOut = useSignOut()
+  const navigate = useNavigate()
+  const handleSignOut = () => {
+    signOut();
+    navigate('/sign-in')
 
+  }
   // Render the notifications menu
   const renderMenu = () => (
     <Menu
@@ -110,27 +118,22 @@ function DashboardNavbar({ absolute, light, isMini }) {
       sx={{ mt: 2 }}
     >
       <NotificationItem
-        image={<img src={team2} alt="person" />}
-        title={["New message", "from Laur"]}
-        date="13 minutes ago"
-        onClick={handleCloseMenu}
+        image={<img src={burceMars} alt="person" />}
+        title={["Admin", ""]}
+        onClick={() => navigate('/profile')}
       />
       <NotificationItem
-        image={<img src={logoSpotify} alt="person" />}
-        title={["New album", "by Travis Scott"]}
-        date="1 day"
-        onClick={handleCloseMenu}
-      />
-      <NotificationItem
-        color="secondary"
         image={
-          <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
-            payment
+          <Icon
+            fontSize="small"
+            color="white"
+            sx={{ color: ({ palette: { white } }) => white.main }}
+          >
+            logout
           </Icon>
         }
-        title={["", "Payment successfully completed"]}
-        date="2 days"
-        onClick={handleCloseMenu}
+        title={["Sign Out", ""]}
+        onClick={handleSignOut}
       />
     </Menu>
   );
@@ -199,7 +202,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
+                <Icon className={light ? "text-white" : "text-dark"}>settings</Icon>
               </IconButton>
               {renderMenu()}
             </SoftBox>

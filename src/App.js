@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import SignIn from "layouts/authentication/sign-in";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -33,6 +34,7 @@ import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "contex
 
 // Images
 import brand from "assets/images/logo-ct.png";
+import { RequireAuth } from "react-auth-kit";
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -88,7 +90,14 @@ export default function App() {
       }
 
       if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={<RequireAuth loginPath="/sign-in" >{route.component}</RequireAuth>}
+            key={route.key}
+          />
+        );
       }
 
       return null;
@@ -139,6 +148,7 @@ export default function App() {
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="/sign-in" element={<SignIn />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -156,13 +166,13 @@ export default function App() {
             onMouseLeave={handleOnMouseLeave}
           />
           <Configurator />
-
         </>
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="/sign-in" element={<SignIn />} />
       </Routes>
     </ThemeProvider>
   );
